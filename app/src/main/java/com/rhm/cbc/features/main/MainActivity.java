@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     }
 
     @Override
-    public void showPokemon(List<String> pokemon) {
+    public void showPokemon(List<Integer> pokemon) {
         pokemonAdapter.setPokemon(pokemon);
         pokemonRecycler.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.VISIBLE);

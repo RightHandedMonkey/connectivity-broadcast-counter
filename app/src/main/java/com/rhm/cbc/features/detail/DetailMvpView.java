@@ -1,12 +1,12 @@
 package com.rhm.cbc.features.detail;
 
-import com.rhm.cbc.data.model.response.Pokemon;
+import com.rhm.cbc.data.model.ChangeEvent;
 import com.rhm.cbc.data.model.response.Statistic;
 import com.rhm.cbc.features.base.MvpView;
 
 public interface DetailMvpView extends MvpView {
 
-    void showPokemon(Pokemon pokemon);
+    void showPokemon(ChangeEvent pokemon);
 
     void showStat(Statistic statistic);
 

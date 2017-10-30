@@ -20,8 +20,8 @@ import io.reactivex.subjects.Subject;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
-    private List<String> pokemonList;
-    private Subject<String> pokemonClickSubject;
+    private List<Integer> pokemonList;
+    private Subject<Integer> pokemonClickSubject;
 
     @Inject
     PokemonAdapter() {
@@ -29,7 +29,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         pokemonList = Collections.emptyList();
     }
 
-    public void setPokemon(List<String> pokemon) {
+    public void setPokemon(List<Integer> pokemon) {
         this.pokemonList = pokemon;
         notifyDataSetChanged();
     }
@@ -44,7 +44,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public void onBindViewHolder(PokemonViewHolder holder, int position) {
-        String pokemon = this.pokemonList.get(position);
+        Integer pokemon = this.pokemonList.get(position);
         holder.onBind(pokemon);
     }
 
@@ -53,7 +53,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         return pokemonList.size();
     }
 
-    Observable<String> getPokemonClick() {
+    Observable<Integer> getPokemonClick() {
         return pokemonClickSubject;
     }
 
@@ -62,7 +62,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         @BindView(R.id.text_name)
         TextView nameText;
 
-        private String pokemon;
+        private Integer pokemon;
 
         PokemonViewHolder(View itemView) {
             super(itemView);
@@ -70,11 +70,11 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
             itemView.setOnClickListener(v -> pokemonClickSubject.onNext(pokemon));
         }
 
-        void onBind(String pokemon) {
+        void onBind(Integer pokemon) {
             this.pokemon = pokemon;
             nameText.setText(
                     String.format(
-                            "%s%s", pokemon.substring(0, 1).toUpperCase(), pokemon.substring(1)));
+                            "Id: %d", pokemon));
         }
     }
 }

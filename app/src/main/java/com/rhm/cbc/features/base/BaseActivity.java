@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import java.util.concurrent.atomic.AtomicLong;
 
 import butterknife.ButterKnife;
-import com.rhm.cbc.MvpStarterApplication;
+import com.rhm.cbc.CBCApplication;
 import com.rhm.cbc.injection.component.ActivityComponent;
 import com.rhm.cbc.injection.component.ConfigPersistentComponent;
 import com.rhm.cbc.injection.component.DaggerConfigPersistentComponent;
@@ -48,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             Timber.i("Creating new ConfigPersistentComponent id=%d", activityId);
             configPersistentComponent =
                     DaggerConfigPersistentComponent.builder()
-                            .appComponent(MvpStarterApplication.get(this).getComponent())
+                            .appComponent(CBCApplication.get(this).getComponent())
                             .build();
             componentsArray.put(activityId, configPersistentComponent);
         } else {

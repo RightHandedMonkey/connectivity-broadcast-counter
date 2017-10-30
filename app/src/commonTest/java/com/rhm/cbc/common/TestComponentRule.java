@@ -6,7 +6,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-import com.rhm.cbc.MvpStarterApplication;
+import com.rhm.cbc.CBCApplication;
 import com.rhm.cbc.common.injection.component.DaggerTestComponent;
 import com.rhm.cbc.common.injection.component.TestComponent;
 import com.rhm.cbc.common.injection.module.ApplicationTestModule;
@@ -25,7 +25,7 @@ public class TestComponentRule implements TestRule {
 
     public TestComponentRule(Context context) {
         this.context = context;
-        MvpStarterApplication application = MvpStarterApplication.get(context);
+        CBCApplication application = CBCApplication.get(context);
         testComponent =
                 DaggerTestComponent.builder()
                         .applicationTestModule(new ApplicationTestModule(application))
@@ -49,7 +49,7 @@ public class TestComponentRule implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                MvpStarterApplication application = MvpStarterApplication.get(context);
+                CBCApplication application = CBCApplication.get(context);
                 application.setComponent(testComponent);
                 base.evaluate();
                 application.setComponent(null);

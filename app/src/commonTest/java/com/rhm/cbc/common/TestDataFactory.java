@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import com.rhm.cbc.data.model.response.NamedResource;
-import com.rhm.cbc.data.model.response.Pokemon;
+import com.rhm.cbc.data.model.ChangeEvent;
 import com.rhm.cbc.data.model.response.Sprites;
 import com.rhm.cbc.data.model.response.Statistic;
 
@@ -22,25 +22,23 @@ public class TestDataFactory {
         return UUID.randomUUID().toString();
     }
 
-    public static Pokemon makePokemon(String id) {
-        Pokemon pokemon = new Pokemon();
-        pokemon.id = id;
-        pokemon.name = randomUuid() + id;
-        pokemon.stats = makeStatisticList(3);
-        pokemon.sprites = makeSprites();
+    public static ChangeEvent makePokemon(int id) {
+        ChangeEvent pokemon = new ChangeEvent();
+        pokemon.setId(id);
+        pokemon.setSsid(randomUuid() + id);
         return pokemon;
     }
 
-    public static List<String> makePokemonNamesList(int count) {
-        List<String> pokemonList = new ArrayList<>();
+    public static List<Integer> makePokemonNamesList(int count) {
+        List<Integer> pokemonList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            pokemonList.add(makePokemon(String.valueOf(i)).name);
+            pokemonList.add(makePokemon(i).getId());
         }
         return pokemonList;
     }
 
-    public static List<String> makePokemonNameList(List<NamedResource> pokemonList) {
-        List<String> names = new ArrayList<>();
+    public static List<Integer> makePokemonNameList(List<NamedResource> pokemonList) {
+        List<Integer> names = new ArrayList<>();
         for (NamedResource pokemon : pokemonList) {
             names.add(pokemon.name);
         }
@@ -70,7 +68,7 @@ public class TestDataFactory {
 
     public static NamedResource makeNamedResource(String unique) {
         NamedResource namedResource = new NamedResource();
-        namedResource.name = randomUuid() + unique;
+        namedResource.name = (int) Math.random()*2000;
         namedResource.url = randomUuid();
         return namedResource;
     }

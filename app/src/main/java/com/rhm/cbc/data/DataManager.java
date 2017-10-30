@@ -5,7 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.rhm.cbc.data.model.response.Pokemon;
+import com.rhm.cbc.data.model.ChangeEvent;
 import com.rhm.cbc.data.remote.PokemonService;
 import io.reactivex.Single;
 
@@ -22,7 +22,7 @@ public class DataManager {
         this.pokemonService = pokemonService;
     }
 
-    public Single<List<String>> getPokemonList(int limit) {
+    public Single<List<Integer>> getPokemonList(int limit) {
         return pokemonService
                 .getPokemonList(limit)
                 .toObservable()
@@ -31,7 +31,7 @@ public class DataManager {
                 .toList();
     }
 
-    public Single<Pokemon> getPokemon(String name) {
+    public Single<ChangeEvent> getPokemon(String name) {
         return pokemonService.getPokemon(name);
     }
 }
