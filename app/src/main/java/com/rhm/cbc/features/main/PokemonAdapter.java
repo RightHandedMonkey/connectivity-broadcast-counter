@@ -14,22 +14,24 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.rhm.cbc.R;
+import com.rhm.cbc.data.model.ChangeEvent;
+
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
-    private List<Integer> pokemonList;
-    private Subject<Integer> pokemonClickSubject;
+    private List<ChangeEvent> pokemonList;
+//    private Subject<Integer> pokemonClickSubject;
 
     @Inject
     PokemonAdapter() {
-        pokemonClickSubject = PublishSubject.create();
+//        pokemonClickSubject = PublishSubject.create();
         pokemonList = Collections.emptyList();
     }
 
-    public void setPokemon(List<Integer> pokemon) {
+    public void setPokemon(List<ChangeEvent> pokemon) {
         this.pokemonList = pokemon;
         notifyDataSetChanged();
     }
@@ -44,7 +46,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public void onBindViewHolder(PokemonViewHolder holder, int position) {
-        Integer pokemon = this.pokemonList.get(position);
+        ChangeEvent pokemon = this.pokemonList.get(position);
         holder.onBind(pokemon);
     }
 
@@ -53,24 +55,24 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         return pokemonList.size();
     }
 
-    Observable<Integer> getPokemonClick() {
-        return pokemonClickSubject;
-    }
+//    Observable<Integer> getPokemonClick() {
+//        return pokemonClickSubject;
+//    }
 
     class PokemonViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_name)
         TextView nameText;
 
-        private Integer pokemon;
+        private ChangeEvent pokemon;
 
         PokemonViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(v -> pokemonClickSubject.onNext(pokemon));
+            //itemView.setOnClickListener(v -> pokemonClickSubject.onNext(pokemon));
         }
 
-        void onBind(Integer pokemon) {
+        void onBind(ChangeEvent pokemon) {
             this.pokemon = pokemon;
             nameText.setText(
                     String.format(

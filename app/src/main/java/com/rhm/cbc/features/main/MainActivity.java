@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import com.rhm.cbc.R;
+import com.rhm.cbc.data.model.ChangeEvent;
 import com.rhm.cbc.features.base.BaseActivity;
 import com.rhm.cbc.features.common.ErrorView;
 import com.rhm.cbc.features.detail.DetailActivity;
@@ -54,33 +55,33 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
         swipeRefreshLayout.setColorSchemeResources(R.color.white);
-        swipeRefreshLayout.setOnRefreshListener(() -> mainPresenter.getPokemon(POKEMON_COUNT));
+        swipeRefreshLayout.setOnRefreshListener(() -> mainPresenter.getPokemon());
 
         pokemonRecycler.setLayoutManager(new LinearLayoutManager(this));
         pokemonRecycler.setAdapter(pokemonAdapter);
-        pokemonClicked();
+        //pokemonClicked();
         errorView.setErrorListener(this);
 
-        mainPresenter.getPokemon(POKEMON_COUNT);
+        mainPresenter.getPokemon();
     }
 
-    private void pokemonClicked() {
-        Disposable disposable =
-                pokemonAdapter
-                        .getPokemonClick()
-                        .subscribe(
-                                pokemon ->
-                                        startActivity(DetailActivity.getStartIntent(this, pokemon)),
-                                throwable -> {
-                                    Timber.e(throwable, "Pokemon click failed");
-                                    Toast.makeText(
-                                            this,
-                                            R.string.error_something_bad_happened,
-                                            Toast.LENGTH_LONG)
-                                            .show();
-                                });
-        mainPresenter.addDisposable(disposable);
-    }
+//    private void pokemonClicked() {
+//        Disposable disposable =
+//                pokemonAdapter
+//                        .getPokemonClick()
+//                        .subscribe(
+//                                pokemon ->
+//                                        startActivity(DetailActivity.getStartIntent(this, pokemon)),
+//                                throwable -> {
+//                                    Timber.e(throwable, "Pokemon click failed");
+//                                    Toast.makeText(
+//                                            this,
+//                                            R.string.error_something_bad_happened,
+//                                            Toast.LENGTH_LONG)
+//                                            .show();
+//                                });
+//        mainPresenter.addDisposable(disposable);
+//    }
 
     @Override
     public int getLayout() {
@@ -103,7 +104,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     }
 
     @Override
-    public void showPokemon(List<Integer> pokemon) {
+    public void showPokemon(List<ChangeEvent> pokemon) {
         pokemonAdapter.setPokemon(pokemon);
         pokemonRecycler.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.VISIBLE);
@@ -139,6 +140,6 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
     @Override
     public void onReloadData() {
-        mainPresenter.getPokemon(POKEMON_COUNT);
+        mainPresenter.getPokemon();
     }
 }

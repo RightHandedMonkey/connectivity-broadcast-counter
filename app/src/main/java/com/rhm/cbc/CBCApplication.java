@@ -2,6 +2,8 @@ package com.rhm.cbc;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 
 import com.facebook.stetho.Stetho;
 import com.rhm.cbc.data.CBCDatabase;
@@ -33,6 +35,8 @@ public class CBCApplication extends Application {
             Traceur.enableLogging();
         }
         CBCDatabase.getInstance(getApplicationContext());
+
+        registerReceiver(new ConnectionChangedBroadcastReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
     }
 

@@ -14,6 +14,7 @@ public class ChangeEvent implements Serializable {
     String detailedState;
     String eventTime;
     String completeMsg;
+    int yearMonthDay;
 
     public int getId() {
         return id;
@@ -61,5 +62,13 @@ public class ChangeEvent implements Serializable {
 
     public void setCompleteMsg(String completeMsg) {
         this.completeMsg = completeMsg;
+    }
+
+    public int getYearMonthDay() {
+        return yearMonthDay;
+    }
+
+    public void setYearMonthDay(int yearMonthDay) {
+        this.yearMonthDay = yearMonthDay;
     }
 }
