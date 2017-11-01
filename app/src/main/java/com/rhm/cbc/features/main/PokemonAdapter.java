@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.rhm.cbc.R;
+import com.rhm.cbc.data.model.ChangeEvent;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -13,21 +16,13 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.rhm.cbc.R;
-import com.rhm.cbc.data.model.ChangeEvent;
-
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
     private List<ChangeEvent> pokemonList;
-//    private Subject<Integer> pokemonClickSubject;
 
     @Inject
     PokemonAdapter() {
-//        pokemonClickSubject = PublishSubject.create();
         pokemonList = Collections.emptyList();
     }
 
@@ -55,28 +50,33 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         return pokemonList.size();
     }
 
-//    Observable<Integer> getPokemonClick() {
-//        return pokemonClickSubject;
-//    }
-
     class PokemonViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_name)
         TextView nameText;
+        @BindView(R.id.text_ssid)
+        TextView ssidText;
+        @BindView(R.id.text_detailed_state)
+        TextView detailedStateText;
+        @BindView(R.id.text_event_time)
+        TextView eventTimeText;
+        @BindView(R.id.text_complete_msg)
+        TextView completeMsgText;
 
         private ChangeEvent pokemon;
 
         PokemonViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            //itemView.setOnClickListener(v -> pokemonClickSubject.onNext(pokemon));
         }
 
         void onBind(ChangeEvent pokemon) {
             this.pokemon = pokemon;
-            nameText.setText(
-                    String.format(
-                            "Id: %d", pokemon));
+            nameText.setText("TYPE: " + pokemon.getTypeName());
+            ssidText.setText("SSID: " + pokemon.getSsid());
+            detailedStateText.setText("STATE: " + pokemon.getDetailedState());
+            eventTimeText.setText("TIME: " + pokemon.getEventTime());
+            completeMsgText.setText(pokemon.getCompleteMsg());
         }
     }
 }
