@@ -14,4 +14,5 @@ This app captures the data from the CONNECTIVITY_ACTION broadcasts and displays 
 * Selectable old/new style of broadcast receiver (in manifest for older devices < 7.0, or programmatically for any version)
 * Dive into the details of the event
 * Remove all pokemon from the app
+* Refresh via Room Rx extensions when data changes
 
