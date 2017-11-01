@@ -52,8 +52,7 @@ public class StatisticView extends RelativeLayout {
     @SuppressLint("SetTextI18n")
     public void setStat(Statistic statistic) {
         nameText.setText(
-                statistic.stat.name.substring(0, 1).toUpperCase()
-                        + statistic.stat.name.substring(1));
+                statistic.stat.name);
         statProgress.setProgress(statistic.baseStat);
     }
 }

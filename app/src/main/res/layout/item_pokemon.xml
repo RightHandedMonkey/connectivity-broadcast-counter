@@ -1,8 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/text_name"
+<LinearLayout
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
     android:padding="16dp"
-    android:textSize="16sp" />
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:textSize="16sp"
+        tools:text="Sample Text"
+        />
+    <TextView
+        android:id="@+id/text_ssid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:textSize="16sp"
+        tools:text="Sample Text"
+        android:paddingLeft="16dp"
+        />
+    <TextView
+        android:id="@+id/text_detailed_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:textSize="16sp"
+        tools:text="Sample Text"
+        android:paddingLeft="16dp"
+        />
+    <TextView
+        android:id="@+id/text_event_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:textSize="16sp"
+        tools:text="Sample Text"
+        android:paddingLeft="16dp"
+        />
+    <TextView
+        android:id="@+id/text_complete_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:textSize="16sp"
+        tools:text="Sample Text"
+        android:visibility="gone"
+        android:paddingLeft="16dp"
+        />
+
+</LinearLayout>

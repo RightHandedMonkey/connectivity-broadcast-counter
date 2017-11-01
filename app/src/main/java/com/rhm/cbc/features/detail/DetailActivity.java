@@ -16,7 +16,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import com.rhm.cbc.R;
-import com.rhm.cbc.data.model.response.Pokemon;
+import com.rhm.cbc.data.model.ChangeEvent;
 import com.rhm.cbc.data.model.response.Statistic;
 import com.rhm.cbc.features.base.BaseActivity;
 import com.rhm.cbc.features.common.ErrorView;
@@ -51,7 +51,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Error
 
     private String pokemonName;
 
-    public static Intent getStartIntent(Context context, String pokemonName) {
+    public static Intent getStartIntent(Context context, Integer pokemonName) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(EXTRA_POKEMON_NAME, pokemonName);
         return intent;
@@ -97,10 +97,10 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Error
     }
 
     @Override
-    public void showPokemon(Pokemon pokemon) {
-        if (pokemon.sprites != null && pokemon.sprites.frontDefault != null) {
-            Glide.with(this).load(pokemon.sprites.frontDefault).into(pokemonImage);
-        }
+    public void showPokemon(ChangeEvent pokemon) {
+//        if (pokemon.sprites != null && pokemon.sprites.frontDefault != null) {
+//            Glide.with(this).load(pokemon.sprites.frontDefault).into(pokemonImage);
+//        }
         pokemonLayout.setVisibility(View.VISIBLE);
     }
 

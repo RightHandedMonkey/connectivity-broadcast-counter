@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import java.util.concurrent.atomic.AtomicLong;
 
 import butterknife.ButterKnife;
-import com.rhm.cbc.MvpStarterApplication;
+import com.rhm.cbc.CBCApplication;
 import com.rhm.cbc.injection.component.ConfigPersistentComponent;
 import com.rhm.cbc.injection.component.DaggerConfigPersistentComponent;
 import com.rhm.cbc.injection.component.FragmentComponent;
@@ -46,7 +46,7 @@ public abstract class BaseFragment extends Fragment {
             Timber.i("Creating new ConfigPersistentComponent id=%d", fragmentId);
             configPersistentComponent =
                     DaggerConfigPersistentComponent.builder()
-                            .appComponent(MvpStarterApplication.get(getActivity()).getComponent())
+                            .appComponent(CBCApplication.get(getActivity()).getComponent())
                             .build();
             componentsArray.put(fragmentId, configPersistentComponent);
         } else {

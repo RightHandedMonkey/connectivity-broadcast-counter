@@ -2,9 +2,11 @@ package com.rhm.cbc;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 
 import com.facebook.stetho.Stetho;
-import com.singhajit.sherlock.core.Sherlock;
+import com.rhm.cbc.data.CBCDatabase;
 import com.squareup.leakcanary.LeakCanary;
 import com.tspoon.traceur.Traceur;
 
@@ -14,12 +16,12 @@ import com.rhm.cbc.injection.module.AppModule;
 import com.rhm.cbc.injection.module.NetworkModule;
 import timber.log.Timber;
 
-public class MvpStarterApplication extends Application {
+public class CBCApplication extends Application {
 
     private AppComponent appComponent;
 
-    public static MvpStarterApplication get(Context context) {
-        return (MvpStarterApplication) context.getApplicationContext();
+    public static CBCApplication get(Context context) {
+        return (CBCApplication) context.getApplicationContext();
     }
 
     @Override
@@ -30,9 +32,12 @@ public class MvpStarterApplication extends Application {
             Timber.plant(new Timber.DebugTree());
             Stetho.initializeWithDefaults(this);
             LeakCanary.install(this);
-            Sherlock.init(this);
             Traceur.enableLogging();
         }
+        CBCDatabase.getInstance(getApplicationContext());
+
+        registerReceiver(new ConnectionChangedBroadcastReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
     }
 
     public AppComponent getComponent() {

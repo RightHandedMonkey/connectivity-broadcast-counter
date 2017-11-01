@@ -116,10 +116,6 @@ dependencies {
     debugImplementation debugLibs
     releaseImplementation releaseLibs
 
-    debugImplementation(sherlock) {
-        transitive = true
-    }
-
     // APT dependencies
     annotationProcessor annotationProcessorLibs
     testAnnotationProcessor daggerCompiler

@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.rhm.cbc.R;
+import com.rhm.cbc.data.model.ChangeEvent;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -13,23 +16,17 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.rhm.cbc.R;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
-    private List<String> pokemonList;
-    private Subject<String> pokemonClickSubject;
+    private List<ChangeEvent> pokemonList;
 
     @Inject
     PokemonAdapter() {
-        pokemonClickSubject = PublishSubject.create();
         pokemonList = Collections.emptyList();
     }
 
-    public void setPokemon(List<String> pokemon) {
+    public void setPokemon(List<ChangeEvent> pokemon) {
         this.pokemonList = pokemon;
         notifyDataSetChanged();
     }
@@ -44,7 +41,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public void onBindViewHolder(PokemonViewHolder holder, int position) {
-        String pokemon = this.pokemonList.get(position);
+        ChangeEvent pokemon = this.pokemonList.get(position);
         holder.onBind(pokemon);
     }
 
@@ -53,28 +50,33 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         return pokemonList.size();
     }
 
-    Observable<String> getPokemonClick() {
-        return pokemonClickSubject;
-    }
-
     class PokemonViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_name)
         TextView nameText;
+        @BindView(R.id.text_ssid)
+        TextView ssidText;
+        @BindView(R.id.text_detailed_state)
+        TextView detailedStateText;
+        @BindView(R.id.text_event_time)
+        TextView eventTimeText;
+        @BindView(R.id.text_complete_msg)
+        TextView completeMsgText;
 
-        private String pokemon;
+        private ChangeEvent pokemon;
 
         PokemonViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(v -> pokemonClickSubject.onNext(pokemon));
         }
 
-        void onBind(String pokemon) {
+        void onBind(ChangeEvent pokemon) {
             this.pokemon = pokemon;
-            nameText.setText(
-                    String.format(
-                            "%s%s", pokemon.substring(0, 1).toUpperCase(), pokemon.substring(1)));
+            nameText.setText("TYPE: " + pokemon.getTypeName());
+            ssidText.setText("SSID: " + pokemon.getSsid());
+            detailedStateText.setText("STATE: " + pokemon.getDetailedState());
+            eventTimeText.setText("TIME: " + pokemon.getEventTime());
+            completeMsgText.setText(pokemon.getCompleteMsg());
         }
     }
 }
