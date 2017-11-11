@@ -1,16 +1,18 @@
 package com.rhm.cbc.features.detail;
 
 import com.rhm.cbc.data.model.ChangeEvent;
-import com.rhm.cbc.data.model.response.Statistic;
+import com.rhm.cbc.data.model.ChangeGroup;
 import com.rhm.cbc.features.base.MvpView;
 
-public interface DetailMvpView extends MvpView {
+import java.util.List;
 
-    void showPokemon(ChangeEvent pokemon);
+public interface SecondaryMvpView extends MvpView {
 
-    void showStat(Statistic statistic);
+    void showEvents(List<ChangeEvent> changeEvents);
 
     void showProgress(boolean show);
 
     void showError(Throwable error);
+
+    int getYearMonthDay();
 }

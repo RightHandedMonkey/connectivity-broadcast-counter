@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 import com.rhm.cbc.data.CBCDatabase;
@@ -13,7 +14,7 @@ import com.tspoon.traceur.Traceur;
 import com.rhm.cbc.injection.component.AppComponent;
 import com.rhm.cbc.injection.component.DaggerAppComponent;
 import com.rhm.cbc.injection.module.AppModule;
-import com.rhm.cbc.injection.module.NetworkModule;
+
 import timber.log.Timber;
 
 public class CBCApplication extends Application {
@@ -37,13 +38,13 @@ public class CBCApplication extends Application {
         CBCDatabase.getInstance(getApplicationContext());
 
         registerReceiver(new ConnectionChangedBroadcastReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        Log.d("SAMB", CBCApplication.class.getName() + " started");
 
     }
 
     public AppComponent getComponent() {
         if (appComponent == null) {
             appComponent = DaggerAppComponent.builder()
-                    .networkModule(new NetworkModule(this, BuildConfig.POKEAPI_API_URL))
                     .appModule(new AppModule(this))
                     .build();
         }

@@ -1,4 +1,4 @@
-package com.rhm.cbc.features.main;
+package com.rhm.cbc.features.detail;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,12 +17,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
+public class ChangeEventAdapter extends RecyclerView.Adapter<ChangeEventAdapter.PokemonViewHolder> {
 
     private List<ChangeEvent> pokemonList;
 
     @Inject
-    PokemonAdapter() {
+    ChangeEventAdapter() {
         pokemonList = Collections.emptyList();
     }
 
@@ -35,7 +35,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
     public PokemonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view =
                 LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_pokemon, parent, false);
+                        .inflate(R.layout.item_change_event, parent, false);
         return new PokemonViewHolder(view);
     }
 

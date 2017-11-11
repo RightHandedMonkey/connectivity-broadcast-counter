@@ -6,7 +6,6 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import com.rhm.cbc.data.DataManager;
 import com.rhm.cbc.injection.ApplicationContext;
 import com.rhm.cbc.injection.module.AppModule;
 
@@ -19,5 +18,4 @@ public interface AppComponent {
 
     Application application();
 
-    DataManager apiManager();
 }

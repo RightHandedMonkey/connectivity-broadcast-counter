@@ -15,20 +15,19 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import com.rhm.cbc.R;
-import com.rhm.cbc.data.model.ChangeEvent;
+import com.rhm.cbc.data.model.ChangeGroup;
 import com.rhm.cbc.features.base.BaseActivity;
 import com.rhm.cbc.features.common.ErrorView;
-import com.rhm.cbc.features.detail.DetailActivity;
+import com.rhm.cbc.features.detail.SecondaryActivity;
 import com.rhm.cbc.injection.component.ActivityComponent;
+
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements MainMvpView, ErrorView.ErrorListener {
 
-    private static final int POKEMON_COUNT = 20;
-
     @Inject
-    PokemonAdapter pokemonAdapter;
+    ChangeGroupAdapter changeGroupAdapter;
     @Inject
     MainPresenter mainPresenter;
 
@@ -38,8 +37,8 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
-    @BindView(R.id.recycler_pokemon)
-    RecyclerView pokemonRecycler;
+    @BindView(R.id.recycler_view)
+    RecyclerView changeGroupRecycler;
 
     @BindView(R.id.swipe_to_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -55,33 +54,35 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
         swipeRefreshLayout.setColorSchemeResources(R.color.white);
-        swipeRefreshLayout.setOnRefreshListener(() -> mainPresenter.getPokemon());
+        swipeRefreshLayout.setOnRefreshListener(() -> mainPresenter.getChangeGroups(true));
 
-        pokemonRecycler.setLayoutManager(new LinearLayoutManager(this));
-        pokemonRecycler.setAdapter(pokemonAdapter);
-        //pokemonClicked();
+        changeGroupRecycler.setLayoutManager(new LinearLayoutManager(this));
+        changeGroupRecycler.setAdapter(changeGroupAdapter);
+        changeGroupRecycler.setHasFixedSize(true);
+        attachGroupClicked();
         errorView.setErrorListener(this);
 
-        mainPresenter.getPokemon();
+        mainPresenter.getChangeGroups(true);
     }
 
-//    private void pokemonClicked() {
-//        Disposable disposable =
-//                pokemonAdapter
-//                        .getPokemonClick()
-//                        .subscribe(
-//                                pokemon ->
-//                                        startActivity(DetailActivity.getStartIntent(this, pokemon)),
-//                                throwable -> {
-//                                    Timber.e(throwable, "Pokemon click failed");
-//                                    Toast.makeText(
-//                                            this,
-//                                            R.string.error_something_bad_happened,
-//                                            Toast.LENGTH_LONG)
-//                                            .show();
-//                                });
-//        mainPresenter.addDisposable(disposable);
-//    }
+
+    private void attachGroupClicked() {
+        Disposable disposable =
+                changeGroupAdapter
+                        .getGroupClick()
+                        .subscribe(
+                                changeGroup ->
+                                        startActivity(SecondaryActivity.getStartIntent(this, changeGroup)),
+                                throwable -> {
+                                    Timber.e(throwable, "Change group click failed");
+                                    Toast.makeText(
+                                            this,
+                                            R.string.error_something_bad_happened,
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                });
+        mainPresenter.addDisposable(disposable);
+    }
 
     @Override
     public int getLayout() {
@@ -104,22 +105,22 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     }
 
     @Override
-    public void showPokemon(List<ChangeEvent> pokemon) {
-        pokemonAdapter.setPokemon(pokemon);
-        pokemonRecycler.setVisibility(View.VISIBLE);
+    public void showGroups(List<ChangeGroup> groups) {
+        changeGroupAdapter.setGroup(groups);
+        changeGroupRecycler.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showProgress(boolean show) {
         if (show) {
-            if (pokemonRecycler.getVisibility() == View.VISIBLE
-                    && pokemonAdapter.getItemCount() > 0) {
+            if (changeGroupRecycler.getVisibility() == View.VISIBLE
+                    && changeGroupAdapter.getItemCount() > 0) {
                 swipeRefreshLayout.setRefreshing(true);
             } else {
                 progressBar.setVisibility(View.VISIBLE);
 
-                pokemonRecycler.setVisibility(View.GONE);
+                changeGroupRecycler.setVisibility(View.GONE);
                 swipeRefreshLayout.setVisibility(View.GONE);
             }
 
@@ -131,8 +132,13 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     }
 
     @Override
+    public ChangeGroupAdapter getAdapter() {
+        return changeGroupAdapter;
+    }
+
+    @Override
     public void showError(Throwable error) {
-        pokemonRecycler.setVisibility(View.GONE);
+        changeGroupRecycler.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);
         Timber.e(error, "There was an error retrieving the pokemon");
@@ -140,6 +146,6 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
     @Override
     public void onReloadData() {
-        mainPresenter.getPokemon();
+        mainPresenter.getChangeGroups(true);
     }
 }
