@@ -10,7 +10,7 @@ import com.rhm.cbc.injection.ApplicationContext;
 
 import static com.rhm.cbc.Constants.PREF_FILE_NAME;
 
-@Module(includes = {ApiModule.class})
+@Module
 public class AppModule {
     private final Application application;
 

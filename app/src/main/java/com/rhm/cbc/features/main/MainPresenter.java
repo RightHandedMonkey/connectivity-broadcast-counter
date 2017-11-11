@@ -1,47 +1,57 @@
 package com.rhm.cbc.features.main;
 
-import javax.inject.Inject;
-
 import com.rhm.cbc.data.CBCDatabase;
-import com.rhm.cbc.data.DataManager;
 import com.rhm.cbc.features.base.BasePresenter;
-import com.rhm.cbc.injection.ApplicationContext;
 import com.rhm.cbc.injection.ConfigPersistent;
 import com.rhm.cbc.injection.component.AppComponent;
-import com.rhm.cbc.util.rx.scheduler.SchedulerUtils;
+
+import javax.inject.Inject;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import rx.Completable;
 
 @ConfigPersistent
 public class MainPresenter extends BasePresenter<MainMvpView> {
 
-    private final DataManager dataManager;
     @Inject
     AppComponent appContext;
 
     @Inject
-    public MainPresenter(DataManager dataManager) {
-        this.dataManager = dataManager;
+    public MainPresenter() {
     }
 
     @Override
     public void attachView(MainMvpView mvpView) {
         super.attachView(mvpView);
+        attachRefreshDisposable();
     }
 
-    public void getPokemon() {
+    private void attachRefreshDisposable() {
+        Disposable d = CBCDatabase.getInstance(appContext.context()).changeEventDao().getAllGroupsFlowable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(changeGroup -> {
+                            //just refresh the list
+                            getChangeGroups(false);
+                        }
+                );
+        addDisposable(d);
+    }
+
+    public void getChangeGroups(boolean show_progress) {
         checkViewAttached();
-        getView().showProgress(true);
-        Single.fromCallable(() -> CBCDatabase.getInstance(appContext.context()).changeEventDao().getAll())
+        if (show_progress) {
+            getView().showProgress(true);
+        }
+        Single.fromCallable(() -> CBCDatabase.getInstance(appContext.context()).changeEventDao().getAllGroups())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         changeEvents -> {
                             getView().showProgress(false);
-                            getView().showPokemon(changeEvents);
+                            getView().showGroups(changeEvents);
                         },
                         throwable -> {
                             getView().showProgress(false);
@@ -50,4 +60,6 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
 
                 );
     }
+
+
 }
