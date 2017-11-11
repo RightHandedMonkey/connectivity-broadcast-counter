@@ -27,10 +27,10 @@ public class SecondaryPresenter extends BasePresenter<SecondaryMvpView> {
     @Override
     public void attachView(SecondaryMvpView mvpView) {
         super.attachView(mvpView);
-        attachRefreshDisposable(mvpView.getYearMonthDay());
     }
 
-    private void attachRefreshDisposable(int yearMonthDay) {
+    public void attachRefreshDisposable(int yearMonthDay) {
+        Log.d("SAMB", "Creating refresh disposable with date ref '"+yearMonthDay+"'");
         Disposable d;
         if (yearMonthDay > 0) {
             d = CBCDatabase.getInstance(appContext.context()).changeEventDao().getEventsByYearMonthDayFlowable(yearMonthDay)
@@ -63,7 +63,10 @@ public class SecondaryPresenter extends BasePresenter<SecondaryMvpView> {
         if (show_progress) {
             getView().showProgress(true);
         }
-        Single.fromCallable(() -> CBCDatabase.getInstance(appContext.context()).changeEventDao().getAll())
+        Single.fromCallable(() -> {
+            Log.d("SAMB", "Getting all events");
+            return CBCDatabase.getInstance(appContext.context()).changeEventDao().getAll();
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -86,8 +89,10 @@ public class SecondaryPresenter extends BasePresenter<SecondaryMvpView> {
         }
         Single.fromCallable(() -> {
             if (yearMonthDay <= 0) {
+                Log.d("SAMB", "Tried to get events by '"+yearMonthDay+"', but getting all instead");
                 return CBCDatabase.getInstance(appContext.context()).changeEventDao().getAll();
             } else {
+                Log.d("SAMB", "Getting events by '"+yearMonthDay+"'");
                 return CBCDatabase.getInstance(appContext.context()).changeEventDao().getEventsByYearMonthDay(yearMonthDay);
             }
         })

@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
         changeGroupRecycler.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);
-        Timber.e(error, "There was an error retrieving the pokemon");
+        Timber.e(error, "There was an error retrieving the ChangeGroups");
     }
 
     @Override

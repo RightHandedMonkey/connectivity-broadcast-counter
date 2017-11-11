@@ -52,12 +52,12 @@ public class SecondaryActivity extends BaseActivity implements SecondaryMvpView,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        yearMonthDay = 0;
+        this.yearMonthDay = 0;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             ChangeGroup cg = (ChangeGroup) extras.get(ChangeGroup.class.getName());
             if (cg instanceof ChangeGroup) {
-                yearMonthDay = cg.yearMonthDay;
+                this.yearMonthDay = cg.yearMonthDay;
             }
         }
         setSupportActionBar(toolbar);
@@ -73,7 +73,7 @@ public class SecondaryActivity extends BaseActivity implements SecondaryMvpView,
         errorView.setErrorListener(this);
 
         secondaryPresenter.getChangeEventsByDay(yearMonthDay, true);
-
+        secondaryPresenter.attachRefreshDisposable(yearMonthDay);
     }
 
     @Override
@@ -97,8 +97,8 @@ public class SecondaryActivity extends BaseActivity implements SecondaryMvpView,
     }
 
     @Override
-    public void showEvents(List<ChangeEvent> pokemon) {
-        changeEventAdapter.setPokemon(pokemon);
+    public void showEvents(List<ChangeEvent> ce) {
+        changeEventAdapter.setChangeEvents(ce);
         changeEventRecycler.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
@@ -128,7 +128,7 @@ public class SecondaryActivity extends BaseActivity implements SecondaryMvpView,
         changeEventRecycler.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);
-        Timber.e(error, "There was an error retrieving the pokemon");
+        Timber.e(error, "There was an error retrieving the ChangeEvents");
     }
 
     @Override
