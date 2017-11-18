@@ -18,7 +18,7 @@ android {
         defaultPublishConfig 'debug'
 
         applicationId "com.rhm.cbc"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         testInstrumentationRunner "com.rhm.cbc.runner.RxAndroidJUnitRunner"
         versionCode 1000
