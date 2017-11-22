@@ -45,4 +45,7 @@ public interface ChangeEventDAO {
 
     @Query("SELECT * FROM changeevent WHERE yearMonthDay = :yearMonthDay ORDER BY id DESC")
     Flowable<ChangeEvent> getEventsByYearMonthDayFlowable(int yearMonthDay);
+
+    @Query("SELECT COUNT(*) FROM changeevent GROUP BY yearMonthDay ORDER BY yearMonthDay DESC LIMIT 0,1")
+    Flowable<Integer> getAllEventCount();
 }

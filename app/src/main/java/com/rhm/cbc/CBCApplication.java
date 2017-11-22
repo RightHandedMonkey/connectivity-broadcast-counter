@@ -3,13 +3,14 @@ package com.rhm.cbc;
 import android.app.Application;
 import android.app.job.JobScheduler;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 import com.rhm.cbc.data.CBCDatabase;
-import com.rhm.cbc.util.AppKeepAliveScheduler;
+import com.rhm.cbc.util.AppForegroundService;
 import com.squareup.leakcanary.LeakCanary;
 import com.tspoon.traceur.Traceur;
 
@@ -41,7 +42,9 @@ public class CBCApplication extends Application {
 
         registerReceiver(new ConnectionChangedBroadcastReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
-        AppKeepAliveScheduler.scheduleJob(this, (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE), AppKeepAliveScheduler.DELAY_IN_SEC);
+        //Start background service
+        Intent i= new Intent(this, AppForegroundService.class);
+        startService(i);
 
         Log.d("SAMB", CBCApplication.class.getName() + " started");
 

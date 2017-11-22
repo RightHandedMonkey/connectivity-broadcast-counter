@@ -58,6 +58,7 @@ public class SecondaryActivity extends BaseActivity implements SecondaryMvpView,
             ChangeGroup cg = (ChangeGroup) extras.get(ChangeGroup.class.getName());
             if (cg instanceof ChangeGroup) {
                 this.yearMonthDay = cg.yearMonthDay;
+                setTitle(cg.getFormattedDate());
             }
         }
         setSupportActionBar(toolbar);
