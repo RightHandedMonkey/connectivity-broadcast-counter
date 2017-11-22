@@ -10,6 +10,7 @@ Do you use the CONNECTIVITY_ACTION broadcast receiver in your app? When is the a
 This app captures the data from the CONNECTIVITY_ACTION broadcasts and displays them in a recycler view to the user.
 
 # Planned enhancements
+* Enable/Disable of background service
 * Animation on recycler view being updated
 * Animation on recycler item being added
 * Selectable old/new style of broadcast receiver (in manifest for older devices < 7.0, or programmatically for any version)
